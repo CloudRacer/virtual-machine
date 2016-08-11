@@ -1,0 +1,11 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure(2) do |config|
+  config.vm.box = "boxcutter/ubuntu1604-desktop"
+
+  config.vm.synced_folder "../../software", "/software"
+  config.vm.synced_folder "/src", "/src"
+
+  config.vm.provision "shell", path: "provision.sh"
+end

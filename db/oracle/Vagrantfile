@@ -1,0 +1,25 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+VAGRANTFILE_API_VERSION = "2"
+# set docker as the default provider
+ENV['VAGRANT_DEFAULT_PROVIDER'] = 'docker'
+# disable parallellism so that the containers come up in order
+#ENV['VAGRANT_NO_PARALLEL'] = "1"
+#ENV['FORWARD_DOCKER_PORTS'] = "1"
+
+DOCKER_HOST_VAGRANTFILE = "../../hosts/docker_host_ubuntu_geerlingguy-ubuntu1604/Vagrantfile"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+ 
+  config.vm.provider "docker" do |d|
+    d.vagrant_vagrantfile = "#{DOCKER_HOST_VAGRANTFILE}"
+	#d.image = "bofm/oracle12c"
+    d.image = "sath89/oracle-12c"
+    d.name = "oracle"
+	d.ports = [ "1521:1521" ]
+	#d.volumes = ["/u01/app/oracle/oradata/xe:/data"]
+	d.create_args = ['-v', '/oradata:/u01/app/oracle/oradata']
+  end
+ 
+end
