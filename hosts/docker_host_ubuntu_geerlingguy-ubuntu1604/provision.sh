@@ -49,9 +49,9 @@ SOFTWARE_FOLDER=/software
 echo VAGRANT_FOLDER:$VAGRANT_FOLDER.
 echo SOFTWARE_FOLDER:$SOFTWARE_FOLDER.
 
-cd "$VAGRANT_FOLDER"
+cd "$SOFTWARE_FOLDER"
 
 #git clone https://github.com/bofm/docker-oracle12c.git
 #cd "$VAGRANT_FOLDER/docker-oracle12c"
 #make all
-$SOFTWARE_FOLDER/install-docker.sh
+sh $SOFTWARE_FOLDER/install-docker.sh
