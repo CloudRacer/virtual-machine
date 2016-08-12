@@ -45,18 +45,22 @@ main
 
 VAGRANT_FOLDER=/vagrant
 SOFTWARE_FOLDER=$VAGRANT_FOLDER/../../software
+ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME=/etc/environment
 
 echo VAGRANT_FOLDER:$VAGRANT_FOLDER.
 echo SOFTWARE_FOLDER:$SOFTWARE_FOLDER.
+echo ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME:$ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME
 
 sudo hostname localhost
 sudo sh -c "echo localhost > /etc/hostname"
 
-#sudo sh -c "echo 'Defaults env_keep += \"PATH JAVA_HOME\"' >> /etc/sudoers"
-
 $SOFTWARE_FOLDER/install-jdk.sh
+. $ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME
 $SOFTWARE_FOLDER/install-maven.sh
-$SOFTWARE_FOLDER/install-eclipse.sh
+. $ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME
 $SOFTWARE_FOLDER/install-node-and-bower.sh
+. $ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME
+npm install -g bower
 $SOFTWARE_FOLDER/install-git.sh
+$SOFTWARE_FOLDER/install-eclipse.sh
 $SOFTWARE_FOLDER/install-google-chrome.sh
