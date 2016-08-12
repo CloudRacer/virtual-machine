@@ -47,6 +47,7 @@ VAGRANT_FOLDER=/vagrant
 SOFTWARE_FOLDER=$VAGRANT_FOLDER/../../software
 
 echo VAGRANT_FOLDER:$VAGRANT_FOLDER.
+echo SOFTWARE_FOLDER:$SOFTWARE_FOLDER.
 
 sudo hostname localhost
 sudo sh -c "echo localhost > /etc/hostname"
@@ -56,5 +57,6 @@ sudo sh -c "echo localhost > /etc/hostname"
 $SOFTWARE_FOLDER/install-jdk.sh
 $SOFTWARE_FOLDER/install-maven.sh
 $SOFTWARE_FOLDER/install-eclipse.sh
-
-sudo apt-get -y install git
+$SOFTWARE_FOLDER/install-node-and-bower.sh
+$SOFTWARE_FOLDER/install-git.sh
+$SOFTWARE_FOLDER/install-google-chrome.sh

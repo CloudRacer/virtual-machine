@@ -30,3 +30,17 @@ echo
 echo "***** Git *****"
 git --version
 echo "******************"
+
+echo
+echo
+echo
+echo "***** npm *****"
+npm -v
+echo "******************"
+
+echo
+echo
+echo
+echo "***** Bower *****"
+bower -v
+echo "******************"
