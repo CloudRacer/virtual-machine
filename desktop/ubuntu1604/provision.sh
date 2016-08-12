@@ -58,11 +58,3 @@ $SOFTWARE_FOLDER/install-maven.sh
 $SOFTWARE_FOLDER/install-eclipse.sh
 
 sudo apt-get -y install git
-
-$VAGRANT_FOLDER/version.sh
-
-# Now visit: -
-#    /vagrant/hadoop-hdfs-format.sh
-#    /vagrant/hadoop-start.sh
-#    http://localhost:50070/
-#    http://localhost:8088/
