@@ -84,4 +84,4 @@ UTILITY_DELETE_FOLDER=$SCRIPT_FOLDER/delete-folder.sh
 
 cd "$INSTALL_FOLDER"
 echo "Unpacking the archive \"$REPOSITORY_SOFTWARE_ARCHIVE\" to the installation folder \"$INSTALL_FOLDER\"..."
-sudo tar zxf "$REPOSITORY_SOFTWARE_ARCHIVE"
+sudo tar xf "$REPOSITORY_SOFTWARE_ARCHIVE"
