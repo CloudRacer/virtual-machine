@@ -8,8 +8,6 @@ setScriptFilename() {
 		return $RESULT;
 	fi
 
-	echo SCRIPT_FILE:$SCRIPT_FILE.
-
 	return 0
 }
 
@@ -25,12 +23,30 @@ setScriptFolderName() {
 		SCRIPT_FOLDER=`pwd`
 	fi
 	
-	echo SCRIPT_FOLDER:$SCRIPT_FOLDER.
-	
 	return 0
 }
 
-initialiseEnvironment() {	
+initialiseEnvironmentVariables() {
+    if [ ! -z "$ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME" ]; then
+        if [ -f $ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME ]; then
+            . $ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME
+            RESULT=$?
+            if [ $RESULT -ne 0 ]; then
+                return $RESULT
+            fi
+        fi
+    fi
+
+	return 0
+}
+
+initialiseEnvironment() {
+    initialiseEnvironmentVariables
+    RESULT=$?
+    if [ $RESULT -ne 0 ]; then
+        return $RESULT
+    fi
+	
 	setScriptFilename
 	RESULT=$?
 	if [ $RESULT -ne 0 ]; then
@@ -44,6 +60,16 @@ initialiseEnvironment() {
 	fi
 	
 	return 0
+}
+
+finalise() {
+    initialiseEnvironmentVariables
+    RESULT=$?
+    if [ $RESULT -ne 0 ]; then
+        return $RESULT
+    fi
+
+    return 0
 }
 
 main() {
@@ -72,6 +98,7 @@ UTILITY_FETCH_FOLDER=$SCRIPT_FOLDER/fetch.sh
 UTILITY_UNPACK_FOLDER=$SCRIPT_FOLDER/unpack.sh
 UTILITY_ENV_VAR_CREATE=$SCRIPT_FOLDER/environment-variable-create.sh
 UTILITY_ENV_VAR_UPDATE=$SCRIPT_FOLDER/environment-variable-update.sh
+ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME=/etc/environment
 
 echo APPLICATION_NAME:$APPLICATION_NAME.
 echo INSTALL_FOLDER:$INSTALL_FOLDER.
@@ -82,6 +109,7 @@ echo SOFTWARE_LINK:$SOFTWARE_LINK.
 echo UTILITY_UNPACK_FOLDER:$UTILITY_UNPACK_FOLDER.
 echo UTILITY_ENV_VAR_CREATE:$UTILITY_ENV_VAR_CREATE.
 echo UTILITY_ENV_VAR_UPDATE:$UTILITY_ENV_VAR_UPDATE.
+echo ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME:$ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME.
 
 echo
 echo
@@ -99,3 +127,5 @@ if [ -f "$SOFTWARE_LINK" ]; then
     sudo rm "$SOFTWARE_LINK"
 fi
 sudo ln -s "$SOFTWARE_HOME/$APPLICATION_NAME" "$SOFTWARE_LINK"
+
+finalise

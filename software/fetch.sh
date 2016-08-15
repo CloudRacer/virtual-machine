@@ -8,9 +8,7 @@ setScriptFilename() {
 		return $RESULT;
 	fi
 
-	#echo SCRIPT_FILE:$SCRIPT_FILE.
-
-	return 0
+    return 0
 }
 
 setScriptFolderName() {
@@ -24,13 +22,31 @@ setScriptFolderName() {
 	if [ "$SCRIPT_FOLDER" = "" ] || [ "$SCRIPT_FOLDER" = "." ] || [ -z "$SCRIPT_FOLDER" ]; then
 		SCRIPT_FOLDER=`pwd`
 	fi
-	
-	#echo SCRIPT_FOLDER:$SCRIPT_FOLDER.
-	
+
+    return 0
+}
+
+initialiseEnvironmentVariables() {
+    if [ ! -z "$ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME" ]; then
+        if [ -f $ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME ]; then
+            . $ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME
+            RESULT=$?
+            if [ $RESULT -ne 0 ]; then
+                return $RESULT
+            fi
+        fi
+    fi
+
 	return 0
 }
 
-initialiseEnvironment() {	
+initialiseEnvironment() {
+    initialiseEnvironmentVariables
+    RESULT=$?
+    if [ $RESULT -ne 0 ]; then
+        return $RESULT
+    fi
+	
 	setScriptFilename
 	RESULT=$?
 	if [ $RESULT -ne 0 ]; then
@@ -44,6 +60,16 @@ initialiseEnvironment() {
 	fi
 	
 	return 0
+}
+
+finalise() {
+    initialiseEnvironmentVariables
+    RESULT=$?
+    if [ $RESULT -ne 0 ]; then
+        return $RESULT
+    fi
+
+    return 0
 }
 
 main() {
@@ -67,15 +93,6 @@ FILENAME=$(basename "$URL")
 REPOSITORY_SOFTWARE_FOLDER=$SCRIPT_FOLDER/repository/$FILENAME
 UTILITY_CREATE_FOLDER=$SCRIPT_FOLDER/create-folder.sh
 INSTALL_SCRIPT_NAME=$REPOSITORY_SOFTWARE_FOLDER/install.sh
-
-#echo
-#echo
-#echo
-#echo REPOSITORY_SOFTWARE_FOLDER:$REPOSITORY_SOFTWARE_FOLDER.
-#echo URL:$URL.
-#echo FILENAME:$FILENAME.
-#echo UTILITY_CREATE_FOLDER:$UTILITY_CREATE_FOLDER.
-#echo INSTALL_SCRIPT_NAME:$INSTALL_SCRIPT_NAME.
 
 if [ -f "$REPOSITORY_SOFTWARE_FOLDER/$FILENAME" ]; then
     echo "Software \"$REPOSITORY_SOFTWARE_FOLDER/$FILENAME\" already exists."
@@ -104,3 +121,5 @@ else
         sh "$INSTALL_SCRIPT_NAME"
     fi
 fi
+
+finalise

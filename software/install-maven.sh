@@ -8,8 +8,6 @@ setScriptFilename() {
 		return $RESULT;
 	fi
 
-	echo SCRIPT_FILE:$SCRIPT_FILE.
-
 	return 0
 }
 
@@ -24,13 +22,31 @@ setScriptFolderName() {
 	if [ "$SCRIPT_FOLDER" = "" ] || [ "$SCRIPT_FOLDER" = "." ] || [ -z "$SCRIPT_FOLDER" ]; then
 		SCRIPT_FOLDER=`pwd`
 	fi
-	
-	echo SCRIPT_FOLDER:$SCRIPT_FOLDER.
-	
+
 	return 0
 }
 
-initialiseEnvironment() {	
+initialiseEnvironmentVariables() {
+    if [ ! -z "$ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME" ]; then
+        if [ -f $ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME ]; then
+            . $ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME
+            RESULT=$?
+            if [ $RESULT -ne 0 ]; then
+                return $RESULT
+            fi
+        fi
+    fi
+
+	return 0
+}
+
+initialiseEnvironment() {
+    initialiseEnvironmentVariables
+    RESULT=$?
+    if [ $RESULT -ne 0 ]; then
+        return $RESULT
+    fi
+	
 	setScriptFilename
 	RESULT=$?
 	if [ $RESULT -ne 0 ]; then
@@ -44,6 +60,16 @@ initialiseEnvironment() {
 	fi
 	
 	return 0
+}
+
+finalise() {
+    initialiseEnvironmentVariables
+    RESULT=$?
+    if [ $RESULT -ne 0 ]; then
+        return $RESULT
+    fi
+
+    return 0
 }
 
 main() {
@@ -69,6 +95,7 @@ SOFTWARE_HOME=$INSTALL_FOLDER/default
 UTILITY_FETCH_FOLDER=$SCRIPT_FOLDER/fetch.sh
 UTILITY_UNPACK_FOLDER=$SCRIPT_FOLDER/unpack.sh
 UTILITY_ENV_VAR_UPDATE=$SCRIPT_FOLDER/environment-variable-update.sh
+ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME=/etc/environment
 
 echo INSTALL_FOLDER:$INSTALL_FOLDER.
 echo SOURCE_FILENAME:$SOURCE_FILENAME.
@@ -77,6 +104,7 @@ echo SOFTWARE_HOME:$SOFTWARE_HOME.
 echo UTILITY_FETCH_FOLDER:$UTILITY_FETCH_FOLDER.
 echo UTILITY_UNPACK_FOLDER:$UTILITY_UNPACK_FOLDER.
 echo UTILITY_ENV_VAR_UPDATE:$UTILITY_ENV_VAR_UPDATE.
+echo ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME:$ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME.
 
 echo
 echo
@@ -90,3 +118,5 @@ for file in `ls $INSTALL_FOLDER`; do
 done
 
 "$UTILITY_ENV_VAR_UPDATE" "PATH" "$PATH:$SOFTWARE_HOME/bin"
+
+finalise

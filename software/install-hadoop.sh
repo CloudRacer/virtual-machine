@@ -1,13 +1,19 @@
 #!/bin/sh
 
-getApplicationFoldername() {
+setScriptFilename() {
 	SCRIPT_FILE=`basename $0`
 	RESULT=$?
 	if [ $RESULT -ne 0 ]; then
 		echo "ERR: $RESULT: Error encountered while determining the name of the current script."
 		return $RESULT;
 	fi
-	
+
+	#echo SCRIPT_FILE:$SCRIPT_FILE.
+
+	return 0
+}
+
+setScriptFolderName() {
 	SCRIPT_FOLDER=`dirname $0`;
 	RESULT=$?
 	if [ $RESULT -ne 0 ]; then
@@ -16,19 +22,58 @@ getApplicationFoldername() {
 	fi
 	
 	if [ "$SCRIPT_FOLDER" = "" ] || [ "$SCRIPT_FOLDER" = "." ] || [ -z "$SCRIPT_FOLDER" ]; then
-			SCRIPT_FOLDER=`pwd`
+		SCRIPT_FOLDER=`pwd`
 	fi
+	
+	#echo SCRIPT_FOLDER:$SCRIPT_FOLDER.
+	
+	return 0
+}
+
+initialiseEnvironmentVariables() {
+    if [ ! -z "$ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME" ]; then
+        if [ -f $ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME ]; then
+            . $ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME
+            RESULT=$?
+            if [ $RESULT -ne 0 ]; then
+                return $RESULT
+            fi
+        fi
+    fi
 
 	return 0
 }
 
-initialiseEnvironment() {	
-	getApplicationFoldername
-	if [ $? -ne 0 ]; then
-		return $?
+initialiseEnvironment() {
+    initialiseEnvironmentVariables
+    RESULT=$?
+    if [ $RESULT -ne 0 ]; then
+        return $RESULT
+    fi
+	
+	setScriptFilename
+	RESULT=$?
+	if [ $RESULT -ne 0 ]; then
+		return $RESULT
+	fi
+	
+	setScriptFolderName
+	RESULT=$?
+	if [ $RESULT -ne 0 ]; then
+		return $RESULT
 	fi
 	
 	return 0
+}
+
+finalise() {
+    initialiseEnvironmentVariables
+    RESULT=$?
+    if [ $RESULT -ne 0 ]; then
+        return $RESULT
+    fi
+
+    return 0
 }
 
 main() {
@@ -57,6 +102,7 @@ UTILITY_FETCH_FOLDER=$SCRIPT_FOLDER/fetch.sh
 UTILITY_UNPACK_FOLDER=$SCRIPT_FOLDER/unpack.sh
 UTILITY_ENV_VAR_CREATE=$SCRIPT_FOLDER/environment-variable-create.sh
 UTILITY_ENV_VAR_UPDATE=$SCRIPT_FOLDER/environment-variable-update.sh
+ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME=/etc/environment
 
 echo OPT_FOLDER:$OPT_FOLDER.
 echo INSTALL_FOLDER:$INSTALL_FOLDER.
@@ -72,6 +118,8 @@ echo UTILITY_FETCH_FOLDER:$UTILITY_FETCH_FOLDER.
 echo UTILITY_UNPACK_FOLDER:$UTILITY_UNPACK_FOLDER.
 echo UTILITY_ENV_VAR_CREATE:$UTILITY_ENV_VAR_CREATE.
 echo UTILITY_ENV_VAR_UPDATE:$UTILITY_ENV_VAR_UPDATE.
+echo ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME:$ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME.
+
 echo
 echo
 echo
@@ -104,3 +152,5 @@ sudo cp /vagrant/configuration/* $HADOOP_HOME/etc/hadoop
 "$UTILITY_ENV_VAR_CREATE" "HADOOP_COMMON_LIB_NATIVE_DIR" "$HADOOP_HOME/lib/native"
 "$UTILITY_ENV_VAR_CREATE" "HADOOP_INSTALL" "$HADOOP_HOME"
 "$UTILITY_ENV_VAR_CREATE" "YARN_LOG_DIR" "/home/$HADOOP_USER/logs/hadoop/yarn"
+
+finalise

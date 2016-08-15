@@ -8,8 +8,6 @@ setScriptFilename() {
 		return $RESULT;
 	fi
 
-	#echo SCRIPT_FILE:$SCRIPT_FILE.
-
 	return 0
 }
 
@@ -30,7 +28,27 @@ setScriptFolderName() {
 	return 0
 }
 
-initialiseEnvironment() {	
+initialiseEnvironmentVariables() {
+    if [ ! -z "$ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME" ]; then
+        if [ -f $ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME ]; then
+            . $ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME
+            RESULT=$?
+            if [ $RESULT -ne 0 ]; then
+                return $RESULT
+            fi
+        fi
+    fi
+
+	return 0
+}
+
+initialiseEnvironment() {
+    initialiseEnvironmentVariables
+    RESULT=$?
+    if [ $RESULT -ne 0 ]; then
+        return $RESULT
+    fi
+	
 	setScriptFilename
 	RESULT=$?
 	if [ $RESULT -ne 0 ]; then
@@ -44,6 +62,16 @@ initialiseEnvironment() {
 	fi
 	
 	return 0
+}
+
+finalise() {
+    initialiseEnvironmentVariables
+    RESULT=$?
+    if [ $RESULT -ne 0 ]; then
+        return $RESULT
+    fi
+
+    return 0
 }
 
 main() {
@@ -75,3 +103,5 @@ UTILITY_DELETE_FOLDER=$SCRIPT_FOLDER/delete-folder.sh
 cd "$INSTALL_FOLDER"
 echo "Unpacking the archive \"$REPOSITORY_SOFTWARE_ARCHIVE\" to the installation folder \"$INSTALL_FOLDER\"..."
 sudo tar xf "$REPOSITORY_SOFTWARE_ARCHIVE"
+
+finalise

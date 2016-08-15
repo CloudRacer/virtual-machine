@@ -8,9 +8,7 @@ setScriptFilename() {
 		return $RESULT;
 	fi
 
-	#echo SCRIPT_FILE:$SCRIPT_FILE.
-
-	return 0
+    return 0
 }
 
 setScriptFolderName() {
@@ -24,13 +22,31 @@ setScriptFolderName() {
 	if [ "$SCRIPT_FOLDER" = "" ] || [ "$SCRIPT_FOLDER" = "." ] || [ -z "$SCRIPT_FOLDER" ]; then
 		SCRIPT_FOLDER=`pwd`
 	fi
-	
-	#echo SCRIPT_FOLDER:$SCRIPT_FOLDER.
-	
+
+    return 0
+}
+
+initialiseEnvironmentVariables() {
+    if [ ! -z "$ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME" ]; then
+        if [ -f $ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME ]; then
+            . $ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME
+            RESULT=$?
+            if [ $RESULT -ne 0 ]; then
+                return $RESULT
+            fi
+        fi
+    fi
+
 	return 0
 }
 
-initialiseEnvironment() {	
+initialiseEnvironment() {
+    initialiseEnvironmentVariables
+    RESULT=$?
+    if [ $RESULT -ne 0 ]; then
+        return $RESULT
+    fi
+	
 	setScriptFilename
 	RESULT=$?
 	if [ $RESULT -ne 0 ]; then
@@ -44,6 +60,16 @@ initialiseEnvironment() {
 	fi
 	
 	return 0
+}
+
+finalise() {
+    initialiseEnvironmentVariables
+    RESULT=$?
+    if [ $RESULT -ne 0 ]; then
+        return $RESULT
+    fi
+
+    return 0
 }
 
 main() {
@@ -69,4 +95,4 @@ ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME=/etc/environment
 echo "Updating the $ENVIRONMENT_VARIABLE_NAME environment variable in the file \"$ENVIRONMENT_VARIABLE_VALUE\"..."
 sudo sed -i "s@^\($ENVIRONMENT_VARIABLE_NAME=\).*@\1\"$ENVIRONMENT_VARIABLE_VALUE\"@" "$ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME"
 
-. $ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME
+finalise
