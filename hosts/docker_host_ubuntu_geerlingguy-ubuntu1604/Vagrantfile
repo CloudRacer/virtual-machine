@@ -8,10 +8,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "geerlingguy/ubuntu1604"
   config.vm.provision "docker"
   config.vm.network "forwarded_port", guest: 1521, host: 1521
+  config.vm.network "forwarded_port", guest: 8080, host: 8080
 
   config.vm.network "private_network", :type => 'dhcp', :adapter => 2
 
   config.vm.synced_folder "../../data/oracle/oradata", "/oradata"
+  config.vm.synced_folder "../../data/tomcat/webapps", "/webapps"
   config.vm.synced_folder "../../software", "/software"
  
   config.vm.provider "virtualbox" do |vb|
