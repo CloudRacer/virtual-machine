@@ -14,7 +14,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
  
   config.vm.provider "docker" do |d|
     d.vagrant_vagrantfile = "#{DOCKER_HOST_VAGRANTFILE}"
-	#d.image = "bofm/oracle12c"
     d.image = "sath89/oracle-12c"
     d.name = "oracle"
 	d.ports = [ "1521:1521" ]
