@@ -12,6 +12,3 @@ sudo touch $DM_CONFIG_FILE
 sudo sh -c "echo \"[Seat:*]\" >> $DM_CONFIG_FILE"
 sudo sh -c "echo \"autologin-user=$AUTO_LOGIN_USERNAME\" >> $DM_CONFIG_FILE"
 sudo sh -c "echo \"autologin-user-timeout=0\" >> $DM_CONFIG_FILE"
-
-# Remove the GTK greeter (it generates an error on login).
-#sudo apt-get -y remove lightdm-gtk-greeter
