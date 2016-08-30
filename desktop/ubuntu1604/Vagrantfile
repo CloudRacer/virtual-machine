@@ -4,16 +4,16 @@
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.vm.box = "jamesthinkbox/ubuntu-16.04-desktop-amd64"
+  config.vm.box = "crumgary/ubuntu-16.04lts-amd64-xfce4-swdev"
 
   config.vm.synced_folder "../../software", "/software"
   config.vm.synced_folder "/src", "/src"
 
   config.vm.provider :virtualbox do |vb|
-    vb.name = "desktop-ubuntu-16.04-amd64"
+    vb.name = "desktop-ubuntu-16.04-amd64-xfce4"
     vb.gui = true
 
-	#vb.customize ["modifyvm", :id, "--accelerate3d", "off"]
+	vb.customize ["modifyvm", :id, "--accelerate3d", "off"]
   end
   
   config.vm.provision "shell", path: "provision.sh"

@@ -95,6 +95,9 @@ echo ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME:$ENVIRONMENT_VALIABLE_SYSTEM_WIDE
 sudo hostname localhost
 sudo sh -c "echo localhost > /etc/hostname"
 
+sh $VAGRANT_FOLDER/auto-login.sh
+initialiseEnvironmentVariables
+
 sh $SOFTWARE_FOLDER/install-jdk.sh
 initialiseEnvironmentVariables
 sh $SOFTWARE_FOLDER/install-maven.sh
