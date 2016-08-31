@@ -44,3 +44,10 @@ echo
 echo "***** Bower *****"
 bower -v
 echo "******************"
+
+echo
+echo
+echo
+echo "***** Vagrant *****"
+vagrant --version 
+echo "******************"

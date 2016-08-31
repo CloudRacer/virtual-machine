@@ -92,11 +92,14 @@ FOLDER_NAME=$1
 echo
 echo
 echo
-if [ -d "$FOLDER_NAME" ]; then
-    echo "Creating the folder \"$FOLDER_NAME\"..."
-    rm -R "$FOLDER_NAME"
+if [ "$FOLDER_NAME" = "/" ]; then
+    echo "As a failsafe, this script (\"$SCRIPT_FILE\") does not operate on the \"$FOLDER_NAME\" folder. No more processing will be done by this script."
 else
-    echo "Folder \"$FOLDER_NAME\" does not exist."
+    if [ -d "$FOLDER_NAME" ]; then
+        echo "Creating the folder \"$FOLDER_NAME\"..."
+        rm -R "$FOLDER_NAME"
+    else
+        echo "Folder \"$FOLDER_NAME\" does not exist."
+    fi
 fi
-
 finalise

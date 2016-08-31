@@ -8,7 +8,7 @@ setScriptFilename() {
 		return $RESULT;
 	fi
 
-	return 0
+    return 0
 }
 
 setScriptFolderName() {
@@ -23,7 +23,7 @@ setScriptFolderName() {
 		SCRIPT_FOLDER=`pwd`
 	fi
 
-	return 0
+    return 0
 }
 
 initialiseEnvironmentVariables() {
@@ -46,7 +46,7 @@ initialiseEnvironment() {
     if [ $RESULT -ne 0 ]; then
         return $RESULT
     fi
-
+	
 	setScriptFilename
 	RESULT=$?
 	if [ $RESULT -ne 0 ]; then
@@ -78,44 +78,37 @@ main() {
 	if [ $RESULT -ne 0 ]; then
 		return $RESULT
 	fi
-
-    return 0
+	
+	return 0
 }
 
 main
+RESULT=$?
+if [ $RESULT -ne 0 ]; then
+	return $RESULT
+fi
 
-VAGRANT_FOLDER=/vagrant
-SOFTWARE_FOLDER=$VAGRANT_FOLDER/../../software
-ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME=/etc/environment
+APPLICATION_NAME=vagrant
+INSTALL_FOLDER=/
+SOURCE_VERSION=1.8.5
+SOURCE_FILENAME="$APPLICATION_NAME"_"$SOURCE_VERSION"_x86_64.deb
+SOFTWARE_DOWNLOAD_URL=https://releases.hashicorp.com/"$APPLICATION_NAME"/"$SOURCE_VERSION"/"$SOURCE_FILENAME"
+UTILITY_FETCH_FOLDER=$SCRIPT_FOLDER/fetch.sh
+UTILITY_UNPACK_FOLDER=$SCRIPT_FOLDER/unpack.sh
 
-echo VAGRANT_FOLDER:$VAGRANT_FOLDER.
-echo SOFTWARE_FOLDER:$SOFTWARE_FOLDER.
-echo ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME:$ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME.
+echo APPLICATION_NAME:$APPLICATION_NAME.
+echo INSTALL_FOLDER:$INSTALL_FOLDER.
+echo SOURCE_VERSION:$SOURCE_VERSION.
+echo SOURCE_FILENAME:$SOURCE_FILENAME.
+echo SOFTWARE_DOWNLOAD_URL:$SOFTWARE_DOWNLOAD_URL.
+echo UTILITY_FETCH_FOLDER:$UTILITY_FETCH_FOLDER.
+echo UTILITY_UNPACK_FOLDER:$UTILITY_UNPACK_FOLDER.
 
-sudo hostname localhost
-sudo sh -c "echo localhost > /etc/hostname"
+echo
+echo
+echo
 
-sudo dpkg --configure -a
-
-sh $VAGRANT_FOLDER/auto-login.sh
-initialiseEnvironmentVariables
-
-sh $SOFTWARE_FOLDER/install-jdk.sh
-initialiseEnvironmentVariables
-sh $SOFTWARE_FOLDER/install-maven.sh
-initialiseEnvironmentVariables
-sh $SOFTWARE_FOLDER/install-node.sh
-initialiseEnvironmentVariables
-sh $SOFTWARE_FOLDER/install-git.sh
-initialiseEnvironmentVariables
-sh $SOFTWARE_FOLDER/install-eclipse.sh
-initialiseEnvironmentVariables
-sh $SOFTWARE_FOLDER/install-google-chrome.sh
-initialiseEnvironmentVariables
-sh $SOFTWARE_FOLDER/install-vagrant.sh
-initialiseEnvironmentVariables
-
-# Install bower.
-npm install -g bower
+"$UTILITY_FETCH_FOLDER" "$SOFTWARE_DOWNLOAD_URL"
+sudo "$UTILITY_UNPACK_FOLDER" "$SOURCE_FILENAME" "$INSTALL_FOLDER"
 
 finalise

@@ -90,14 +90,20 @@ fi
 
 FOLDER_NAME=$1
 
+echo FOLDER_NAME:$FOLDER_NAME.
+
 echo
 echo
 echo
-if [ ! -d "$FOLDER_NAME" ]; then
-    echo "Creating the folder \"$FOLDER_NAME\"..."
-    mkdir -p "$FOLDER_NAME"
+if [ "$FOLDER_NAME" = "/" ]; then
+    echo "As a failsafe, this script (\"$SCRIPT_FILE\") does not operate on the \"$FOLDER_NAME\" folder. No more processing will be done by this script."
 else
-    echo "Folder \"$FOLDER_NAME\" already exists."
+    if [ ! -d "$FOLDER_NAME" ]; then
+        echo "Creating the folder \"$FOLDER_NAME\"..."
+        mkdir -p "$FOLDER_NAME"
+    else
+        echo "Folder \"$FOLDER_NAME\" already exists."
+    fi
 fi
 
 finalise
