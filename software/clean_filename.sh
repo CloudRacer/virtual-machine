@@ -18,13 +18,13 @@ setScriptFolderName() {
 		echo "ERR: $RESULT: Error encountered while determining the name of the folder containing the current script."
 		return $RESULT;
 	fi
-	
+
 	if [ "$SCRIPT_FOLDER" = "" ] || [ "$SCRIPT_FOLDER" = "." ] || [ -z "$SCRIPT_FOLDER" ]; then
 		SCRIPT_FOLDER=`pwd`
 	fi
-	
+
 	#echo SCRIPT_FOLDER:$SCRIPT_FOLDER.
-	
+
 	return 0
 }
 
@@ -48,19 +48,19 @@ initialiseEnvironment() {
     if [ $RESULT -ne 0 ]; then
         return $RESULT
     fi
-	
+
 	setScriptFilename
 	RESULT=$?
 	if [ $RESULT -ne 0 ]; then
 		return $RESULT
 	fi
-	
+
 	setScriptFolderName
 	RESULT=$?
 	if [ $RESULT -ne 0 ]; then
 		return $RESULT
 	fi
-	
+
 	return 0
 }
 
@@ -80,7 +80,7 @@ main() {
 	if [ $RESULT -ne 0 ]; then
 		return $RESULT
 	fi
-	
+
 	return 0
 }
 
@@ -90,39 +90,35 @@ if [ $RESULT -ne 0 ]; then
 	return $RESULT
 fi
 
+FOLDER_NAME=$1
 
-SOFTWARE_NAME=$1
-INSTALL_FOLDER=$2
-REPOSITORY_ARCHIVE=$SCRIPT_FOLDER/repository
-REPOSITORY_SOFTWARE_ARCHIVE=$REPOSITORY_ARCHIVE/$SOFTWARE_NAME/$SOFTWARE_NAME
-REPOSITORY_SOFTWARE_ARCHIVE_EXTENSION=${REPOSITORY_SOFTWARE_ARCHIVE##*.}
-DEB_FILE_EXTENSION="deb"
-BZ2_FILE_EXTENSION="bz2"
-UTILITY_CREATE_FOLDER=$SCRIPT_FOLDER/create-folder.sh
-UTILITY_DELETE_FOLDER=$SCRIPT_FOLDER/delete-folder.sh
-UTILITY_CLEAN_FILENAME=$SCRIPT_FOLDER/clean_filename.sh
+echo
+echo
+echo
+echo FOLDER_NAME:$FOLDER_NAME.
 
-echo SOFTWARE_NAME:$SOFTWARE_NAME.
-echo REPOSITORY_SOFTWARE_ARCHIVE:$REPOSITORY_SOFTWARE_ARCHIVE.
-echo REPOSITORY_SOFTWARE_ARCHIVE_EXTENSION:$REPOSITORY_SOFTWARE_ARCHIVE_EXTENSION.
-echo DEB_FILE_EXTENSION:$DEB_FILE_EXTENSION.
-echo BZ2_FILE_EXTENSION:$BZ2_FILE_EXTENSION.
+echo
+echo
+echo
+echo Renaming folders...
+find "$FOLDER_NAME" -type d | while read -r FILE
+do
+    NEW_FILENAME=`echo $FILE | sed -e 's/%20/ /g' | tr ' ' '_' | tr -d '[{}(),\!]' | tr -d "\'" | sed 's/_-_/_/g'`
+    if [ ! "$FILE" = "$NEW_FILENAME" ]; then
+        echo Renaming "$FILE" to "$NEW_FILENAME"...
+        mv "$FILE" "$NEW_FILENAME"
+    fi
+done
 
-"$UTILITY_DELETE_FOLDER" "$INSTALL_FOLDER" 
-"$UTILITY_CREATE_FOLDER" "$INSTALL_FOLDER"
-cd "$INSTALL_FOLDER"
-
-if [ "$REPOSITORY_SOFTWARE_ARCHIVE_EXTENSION" = "$DEB_FILE_EXTENSION" ]; then
-    echo "Unpacking the debian bundle \"$REPOSITORY_SOFTWARE_ARCHIVE\" to the installation folder \"$INSTALL_FOLDER\"..."
-    sudo dpkg-deb --extract "$REPOSITORY_SOFTWARE_ARCHIVE" "."
-elif [ "$REPOSITORY_SOFTWARE_ARCHIVE_EXTENSION" = "$BZ2_FILE_EXTENSION" ]; then
-    echo "Unpacking the debian bundle \"$REPOSITORY_SOFTWARE_ARCHIVE\" to the installation folder \"$INSTALL_FOLDER\"..."
-    sudo bunzip2 -d "$REPOSITORY_SOFTWARE_ARCHIVE" "."
-else
-    echo "Unpacking the archive \"$REPOSITORY_SOFTWARE_ARCHIVE\" to the installation folder \"$INSTALL_FOLDER\"..."
-    sudo tar xf "$REPOSITORY_SOFTWARE_ARCHIVE"
-fi
-
-"$UTILITY_CLEAN_FILENAME" "$REPOSITORY_ARCHIVE"
-
-finalise
+echo
+echo
+echo
+echo Renaming files...
+find "$FOLDER_NAME" -type f | while read -r FILE
+do
+    NEW_FILENAME=`echo $FILE | sed -e 's/%20/ /g' | tr ' ' '_' | tr -d '[{}(),\!]' | tr -d "\'" | sed 's/_-_/_/g'`
+    if [ ! "$FILE" = "$NEW_FILENAME" ]; then
+        echo Renaming "$FILE" to "$NEW_FILENAME"...
+        mv "$FILE" "$NEW_FILENAME"
+    fi
+done
