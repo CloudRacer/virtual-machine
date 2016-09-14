@@ -117,7 +117,7 @@ if [ "$REPOSITORY_SOFTWARE_ARCHIVE_EXTENSION" = "$DEB_FILE_EXTENSION" ]; then
     sudo dpkg-deb --extract "$REPOSITORY_SOFTWARE_ARCHIVE" "."
 elif [ "$REPOSITORY_SOFTWARE_ARCHIVE_EXTENSION" = "$BZ2_FILE_EXTENSION" ]; then
     echo "Unpacking the debian bundle \"$REPOSITORY_SOFTWARE_ARCHIVE\" to the installation folder \"$INSTALL_FOLDER\"..."
-    sudo bunzip2 -d "$REPOSITORY_SOFTWARE_ARCHIVE" "."
+    sudo tar -jxf "$REPOSITORY_SOFTWARE_ARCHIVE"
 else
     echo "Unpacking the archive \"$REPOSITORY_SOFTWARE_ARCHIVE\" to the installation folder \"$INSTALL_FOLDER\"..."
     sudo tar xf "$REPOSITORY_SOFTWARE_ARCHIVE"
