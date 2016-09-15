@@ -114,6 +114,8 @@ sh $SOFTWARE_FOLDER/install-google-chrome.sh
 initialiseEnvironmentVariables
 sh $SOFTWARE_FOLDER/install-vagrant.sh
 initialiseEnvironmentVariables
+sh $SOFTWARE_FOLDER/install-sublime.sh
+initialiseEnvironmentVariables
 
 # Install bower.
 npm install -g bower
