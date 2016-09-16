@@ -121,6 +121,12 @@ do
         sudo mv "$FILE" "$SOFTWARE_HOME"
     fi
 done
+
+if [ -f "$SOFTWARE_LINK" ]; then
+	echo Removing the pre-existing Symbolic Link \"$SOFTWARE_LINK\"...
+	sudo rm "$SOFTWARE_LINK"
+fi
+echo Creating the Symbolic Link \"$SOFTWARE_LINK\" to \"$APPLICATION_EXECUTABLE\ls "...
 sudo ln -s "$APPLICATION_EXECUTABLE" "$SOFTWARE_LINK"
 
 finalise
