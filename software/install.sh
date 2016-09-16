@@ -94,7 +94,8 @@ INSTALL_FOLDER=/opt/$APPLICATION_NAME
 SOFTWARE_DOWNLOAD_URL=$2
 SOURCE_FILENAME=`basename $SOFTWARE_DOWNLOAD_URL`
 SOFTWARE_HOME=$INSTALL_FOLDER/default
-APPLICATION_EXECUTABLE=$SOFTWARE_HOME/$3
+APPLICATION_EXECUTABLE_NAME=$3
+APPLICATION_EXECUTABLE=$SOFTWARE_HOME/$APPLICATION_EXECUTABLE_NAME
 UTILITY_FETCH_FOLDER=$SCRIPT_FOLDER/fetch.sh
 UTILITY_UNPACK_FOLDER=$SCRIPT_FOLDER/unpack.sh
 ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME=/etc/environment
@@ -122,11 +123,15 @@ do
     fi
 done
 
-if [ -f "$SOFTWARE_LINK" ]; then
-	echo Removing the pre-existing Symbolic Link \"$SOFTWARE_LINK\"...
-	sudo rm "$SOFTWARE_LINK"
+if [ ! "$APPLICATION_EXECUTABLE_NAME" = "" ]; then
+	if [ -f "$SOFTWARE_LINK" ]; then
+		echo Removing the pre-existing Symbolic Link \"$SOFTWARE_LINK\"...
+		sudo rm "$SOFTWARE_LINK"
+	fi
+	echo Creating the Symbolic Link \"$SOFTWARE_LINK\" to \"$APPLICATION_EXECUTABLE\"...
+	sudo ln -s "$APPLICATION_EXECUTABLE" "$SOFTWARE_LINK"
+else
+	echo Application executable not specified\; a Symbolic Link will not be created.
 fi
-echo Creating the Symbolic Link \"$SOFTWARE_LINK\" to \"$APPLICATION_EXECUTABLE\ls "...
-sudo ln -s "$APPLICATION_EXECUTABLE" "$SOFTWARE_LINK"
 
 finalise
