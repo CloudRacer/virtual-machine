@@ -111,17 +111,22 @@ echo UTILITY_FETCH_FOLDER:$UTILITY_FETCH_FOLDER.
 echo UTILITY_UNPACK_FOLDER:$UTILITY_UNPACK_FOLDER.
 echo ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME:$ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME.
 
-"$UTILITY_FETCH_FOLDER" "$SOFTWARE_DOWNLOAD_URL"
-SOURCE_FILENAME=`echo $SOURCE_FILENAME | sed -e 's/%20/ /g' | tr ' ' '_' | tr -d '[{}(),\!]' | tr -d "\'" | sed 's/_-_/_/g'`
+if [ ! -d "$INSTALL_FOLDER" ]; then
+	"$UTILITY_FETCH_FOLDER" "$SOFTWARE_DOWNLOAD_URL"
+	SOURCE_FILENAME=`echo $SOURCE_FILENAME | sed -e 's/%20/ /g' | tr ' ' '_' | tr -d '[{}(),\!]' | tr -d "\'" | sed 's/_-_/_/g'`
 
-sudo "$UTILITY_UNPACK_FOLDER" "$SOURCE_FILENAME" "$INSTALL_FOLDER"
-find "$INSTALL_FOLDER" -maxdepth 1 -type d | while read -r FILE
-do
-    if [ ! "$FILE" = "$INSTALL_FOLDER" ]; then
-        echo Moving the folder "$FILE" to "$SOFTWARE_HOME"...
-        sudo mv "$FILE" "$SOFTWARE_HOME"
-    fi
-done
+	sudo "$UTILITY_UNPACK_FOLDER" "$SOURCE_FILENAME" "$INSTALL_FOLDER"
+	find "$INSTALL_FOLDER" -maxdepth 1 -type d | while read -r FILE
+	do
+	    if [ ! "$FILE" = "$INSTALL_FOLDER" ]; then
+	        echo Moving the folder "$FILE" to "$SOFTWARE_HOME"...
+	        sudo mv "$FILE" "$SOFTWARE_HOME"
+	    fi
+	done
+else
+	echo; echo; echo; echo The application folder \"$INSTALL_FOLDER\" already exists.
+fi
+
 
 if [ ! "$APPLICATION_EXECUTABLE_NAME" = "" ]; then
 	if [ -f "$SOFTWARE_LINK" ]; then
@@ -131,7 +136,7 @@ if [ ! "$APPLICATION_EXECUTABLE_NAME" = "" ]; then
 	echo Creating the Symbolic Link \"$SOFTWARE_LINK\" to \"$APPLICATION_EXECUTABLE\"...
 	sudo ln -s "$APPLICATION_EXECUTABLE" "$SOFTWARE_LINK"
 else
-	echo Application executable not specified\; a Symbolic Link will not be created.
+	echo; echo; echo; echo Application executable not specified\; a Symbolic Link will not be created.
 fi
 
 finalise
