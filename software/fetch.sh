@@ -95,9 +95,10 @@ REPOSITORY_SOFTWARE_FOLDER=$REPOSITORY_ARCHIVE/$FILENAME
 UTILITY_CREATE_FOLDER=$SCRIPT_FOLDER/create-folder.sh
 UTILITY_CLEAN_FILENAME=$SCRIPT_FOLDER/clean_filename.sh
 INSTALL_SCRIPT_NAME=$REPOSITORY_SOFTWARE_FOLDER/install.sh
+REPOSITORY_SOFTWARE_FILENAME_CLEAN=`echo $REPOSITORY_SOFTWARE_FOLDER/$FILENAME | sed -e 's/%20/ /g' | tr ' ' '_' | tr -d '[{}(),\!]' | tr -d "\'" | sed 's/_-_/_/g'`
 
-if [ -f "$REPOSITORY_SOFTWARE_FOLDER/$FILENAME" ]; then
-    echo "Software \"$REPOSITORY_SOFTWARE_FOLDER/$FILENAME\" already exists."
+if [ -f "$REPOSITORY_SOFTWARE_FILENAME_CLEAN" ]; then
+    echo; echo; echo; echo "Software \"$REPOSITORY_SOFTWARE_FILENAME_CLEAN\" already exists."
 else
     "$UTILITY_CREATE_FOLDER" "$REPOSITORY_SOFTWARE_FOLDER"
 
@@ -119,7 +120,7 @@ else
         echo "rm -f \"\$SCRIPT_FOLDER/\$SOFTWARE_NAME\".*" >> "$INSTALL_SCRIPT_NAME"
         echo "wget --no-check-certificate --no-cookies --header \"Cookie: oraclelicense=accept-securebackup-cookie\" $URL" >> "$INSTALL_SCRIPT_NAME"
 
-        echo "Downloading \"$REPOSITORY_SOFTWARE_FOLDER/$FILENAME\"..."
+        echo; echo; echo; echo "Downloading \"$REPOSITORY_SOFTWARE_FOLDER/$FILENAME\"..."
         sh "$INSTALL_SCRIPT_NAME"
     fi
 fi

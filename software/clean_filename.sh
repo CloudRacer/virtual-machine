@@ -92,15 +92,8 @@ fi
 
 FOLDER_NAME=$1
 
-echo
-echo
-echo
-echo FOLDER_NAME:$FOLDER_NAME.
+echo; echo; echo; echo FOLDER_NAME:$FOLDER_NAME.
 
-echo
-echo
-echo
-echo Renaming folders...
 find "$FOLDER_NAME" -type d | while read -r FILE
 do
     NEW_FILENAME=`echo $FILE | sed -e 's/%20/ /g' | tr ' ' '_' | tr -d '[{}(),\!]' | tr -d "\'" | sed 's/_-_/_/g'`
@@ -110,10 +103,6 @@ do
     fi
 done
 
-echo
-echo
-echo
-echo Renaming files...
 find "$FOLDER_NAME" -type f | while read -r FILE
 do
     NEW_FILENAME=`echo $FILE | sed -e 's/%20/ /g' | tr ' ' '_' | tr -d '[{}(),\!]' | tr -d "\'" | sed 's/_-_/_/g'`
