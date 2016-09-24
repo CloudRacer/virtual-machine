@@ -109,12 +109,16 @@ echo
 echo
 
 IFS=","
-while read NAME URL EXE PARAM1 PARAM2 PARAM3
+while read NAME URL EXE PARAM1 PARAM2 PARAM3 PARAM4 PARAM5 PARAM6
 do
     "$UTILITY_INSTALL_APPLICATION_FOLDER" "$NAME" "$URL" "$EXE"
 
 	if [ "$PARAM1" = "env" ]; then
 	    "$UTILITY_ENV_VAR_UPDATE" $PARAM2 $PARAM3
+
+		if [ "$PARAM4" = "env" ]; then
+		    "$UTILITY_ENV_VAR_UPDATE" $PARAM5 $PARAM6
+		fi
 	fi
 done < "$INSTALL_LIST"
 
