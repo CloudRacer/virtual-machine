@@ -92,6 +92,8 @@ echo VAGRANT_FOLDER:$VAGRANT_FOLDER.
 echo SOFTWARE_FOLDER:$SOFTWARE_FOLDER.
 echo ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME:$ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME.
 
+sudo locale-gen en_GB
+
 sudo hostname localhost
 sudo sh -c "echo localhost > /etc/hostname"
 

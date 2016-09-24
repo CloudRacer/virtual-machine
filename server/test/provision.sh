@@ -43,17 +43,4 @@ main() {
 
 main
 
-VAGRANT_FOLDER=/vagrant
-SOFTWARE_FOLDER=/software
-
-echo VAGRANT_FOLDER:$VAGRANT_FOLDER.
-echo SOFTWARE_FOLDER:$SOFTWARE_FOLDER.
-
 sudo locale-gen en_GB
-
-cd "$SOFTWARE_FOLDER"
-
-#git clone https://github.com/bofm/docker-oracle12c.git
-#cd "$VAGRANT_FOLDER/docker-oracle12c"
-#make all
-sh $SOFTWARE_FOLDER/install-docker.sh

@@ -108,7 +108,7 @@ echo
 echo
 echo
 
-finalise
+initialiseEnvironmentVariables
 
 IFS=","
 while read NAME URL EXE PARAM1 PARAM2 PARAM3 PARAM4 PARAM5 PARAM6
@@ -118,8 +118,11 @@ do
 	if [ "$PARAM1" = "env" ]; then
 	    "$UTILITY_ENV_VAR_UPDATE" $PARAM2 $PARAM3
 
+		initialiseEnvironmentVariables
 		if [ "$PARAM4" = "env" ]; then
 		    "$UTILITY_ENV_VAR_UPDATE" $PARAM5 $PARAM6
+
+			initialiseEnvironmentVariables
 		fi
 	fi
 done < "$INSTALL_LIST"

@@ -62,6 +62,8 @@ if [ $RESULT -ne 0 ]; then
 	return $RESULT
 fi
 
+sudo locale-gen en_GB
+
 VAGRANT_FOLDER=/vagrant
 
 echo

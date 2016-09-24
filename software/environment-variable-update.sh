@@ -37,6 +37,8 @@ initialiseEnvironmentVariables() {
         fi
     fi
 
+    echo XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX:$PATH.
+
 	return 0
 }
 
@@ -88,6 +90,8 @@ if [ $RESULT -ne 0 ]; then
 	return $RESULT
 fi
 
+initialiseEnvironmentVariables
+
 ENVIRONMENT_VARIABLE_NAME=$1
 ENVIRONMENT_VARIABLE_VALUE=$( eval "echo $2" )
 ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME=/etc/environment
@@ -95,6 +99,8 @@ ENVIRONMENT_VARIABLE_ALREADY_EXISTS=`cat $ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILEN
 UTILITY_ENV_VAR_CREATE=$SCRIPT_FOLDER/environment-variable-create.sh
 
 echo ENVIRONMENT_VARIABLE_ALREADY_EXISTS:$ENVIRONMENT_VARIABLE_ALREADY_EXISTS.
+
+initialiseEnvironmentVariables
 
 if [ $ENVIRONMENT_VARIABLE_ALREADY_EXISTS -ne 0 ]; then
 	FOLDER_ALREADY_IN_PATH=0
