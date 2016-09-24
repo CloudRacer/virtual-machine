@@ -108,6 +108,8 @@ echo
 echo
 echo
 
+finalise
+
 IFS=","
 while read NAME URL EXE PARAM1 PARAM2 PARAM3 PARAM4 PARAM5 PARAM6
 do
