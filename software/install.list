@@ -4,3 +4,4 @@ vagrant,https://releases.hashicorp.com/vagrant/1.8.5/vagrant_1.8.5_x86_64.deb,va
 java,http://download.oracle.com/otn-pub/java/jdk/8u92-b14/jdk-8u92-linux-x64.tar.gz,bin/java,env,JAVA_HOME,/opt/java/default,env,PATH,$PATH:/opt/java/default/bin
 maven,http://www.mirrorservice.org/sites/ftp.apache.org/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz,bin/mvn,env,PATH,$PATH:/opt/maven/default/bin
 nodejs,https://nodejs.org/dist/v4.4.7/node-v4.4.7-linux-x64.tar.xz,bin/node,env,PATH,$PATH:/opt/nodejs/default/bin
+git,<PREBUILT>,/bin/git,env,PATH,$PATH:/opt/git/default/bin

@@ -37,8 +37,6 @@ initialiseEnvironmentVariables() {
         fi
     fi
 
-    echo XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX:$PATH.
-
 	return 0
 }
 
