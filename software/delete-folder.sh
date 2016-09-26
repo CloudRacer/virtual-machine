@@ -97,7 +97,7 @@ if [ "$FOLDER_NAME" = "/" ]; then
 else
     if [ -d "$FOLDER_NAME" ]; then
         echo "Creating the folder \"$FOLDER_NAME\"..."
-        rm -R "$FOLDER_NAME"
+        sudo rm --preserve-root --recursive --force "$FOLDER_NAME"
     else
         echo "Folder \"$FOLDER_NAME\" does not exist."
     fi
