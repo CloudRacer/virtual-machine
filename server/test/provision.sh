@@ -44,3 +44,7 @@ main() {
 main
 
 sudo locale-gen en_GB
+
+sudo apt-get -y install curl
+sudo apt-get -y install make
+sudo apt-get -y install autoconf
