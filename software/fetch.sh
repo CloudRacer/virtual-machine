@@ -92,13 +92,21 @@ URL=$1
 FILENAME=$(basename "$URL")
 REPOSITORY_ARCHIVE=$SCRIPT_FOLDER/repository
 REPOSITORY_SOFTWARE_FOLDER=$REPOSITORY_ARCHIVE/$FILENAME
+REPOSITORY_SOFTWARE_FOLDER_CUSTOM=$REPOSITORY_ARCHIVE/$2
 UTILITY_CREATE_FOLDER=$SCRIPT_FOLDER/create-folder.sh
 UTILITY_CLEAN_FILENAME=$SCRIPT_FOLDER/clean_filename.sh
 INSTALL_SCRIPT_NAME=$REPOSITORY_SOFTWARE_FOLDER/install.sh
 REPOSITORY_SOFTWARE_FILENAME_CLEAN=`echo $REPOSITORY_SOFTWARE_FOLDER/$FILENAME | sed -e 's/%20/ /g' | tr ' ' '_' | tr -d '[{}(),\!]' | tr -d "\'" | sed 's/_-_/_/g'`
 
+echo XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX:$2.
+if [ -n "$2" ] && [ -d "$REPOSITORY_SOFTWARE_FOLDER_CUSTOM" ]; then
+    echo YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY:$2.
+fi
+
 if [ -f "$REPOSITORY_SOFTWARE_FILENAME_CLEAN" ]; then
     echo; echo; echo; echo "Software \"$REPOSITORY_SOFTWARE_FILENAME_CLEAN\" already exists."
+elif [ -n "$2" ] && [ -d "$REPOSITORY_SOFTWARE_FOLDER_CUSTOM" ]; then
+    echo; echo; echo; echo "Software \"$REPOSITORY_SOFTWARE_FOLDER_CUSTOM\" already exists."
 else
     "$UTILITY_CREATE_FOLDER" "$REPOSITORY_SOFTWARE_FOLDER"
 
@@ -122,6 +130,14 @@ else
 
         echo; echo; echo; echo "Downloading \"$REPOSITORY_SOFTWARE_FOLDER/$FILENAME\"..."
         sh "$INSTALL_SCRIPT_NAME"
+    
+        if [ ! -z "$2" ]; then
+            if [ -d "$REPOSITORY_SOFTWARE_FOLDER_CUSTOM" ]; then
+                rm -R "$REPOSITORY_SOFTWARE_FOLDER_CUSTOM"
+            fi
+
+            mv "$REPOSITORY_SOFTWARE_FOLDER" "$REPOSITORY_SOFTWARE_FOLDER_CUSTOM"
+        fi
     fi
 fi
 
