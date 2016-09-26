@@ -131,4 +131,8 @@ do
 	fi
 done < "$INSTALL_LIST"
 
+if [ -f "/usr/bin/node" ]; then
+	sudo npm install -g bower
+fi
+
 finalise
