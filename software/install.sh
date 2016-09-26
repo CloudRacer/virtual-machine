@@ -131,7 +131,7 @@ do
 	fi
 done < "$INSTALL_LIST"
 
-if [ -f "/usr/bin/node" ]; then
+if [ -f "/usr/bin/nodejs" ]; then
 	sudo npm install -g bower
 fi
 
