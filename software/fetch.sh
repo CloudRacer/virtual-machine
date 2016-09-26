@@ -137,6 +137,9 @@ else
             fi
 
             mv "$REPOSITORY_SOFTWARE_FOLDER" "$REPOSITORY_SOFTWARE_FOLDER_CUSTOM"
+            if [ -f "$REPOSITORY_SOFTWARE_FOLDER_CUSTOM/tarball" ]; then
+                mv "$REPOSITORY_SOFTWARE_FOLDER_CUSTOM/tarball" "$REPOSITORY_SOFTWARE_FOLDER_CUSTOM/$2.tar.gz"
+            fi
         fi
     fi
 fi
