@@ -95,13 +95,9 @@ REPOSITORY_SOFTWARE_FOLDER=$REPOSITORY_ARCHIVE/$FILENAME
 REPOSITORY_SOFTWARE_FOLDER_CUSTOM=$REPOSITORY_ARCHIVE/$2
 UTILITY_CREATE_FOLDER=$SCRIPT_FOLDER/create-folder.sh
 UTILITY_CLEAN_FILENAME=$SCRIPT_FOLDER/clean_filename.sh
-INSTALL_SCRIPT_NAME=$REPOSITORY_SOFTWARE_FOLDER/install.sh
+INSTALL_SCRIPT_FILENAME=install.sh
+INSTALL_SCRIPT_NAME=$REPOSITORY_SOFTWARE_FOLDER/$INSTALL_SCRIPT_FILENAME
 REPOSITORY_SOFTWARE_FILENAME_CLEAN=`echo $REPOSITORY_SOFTWARE_FOLDER/$FILENAME | sed -e 's/%20/ /g' | tr ' ' '_' | tr -d '[{}(),\!]' | tr -d "\'" | sed 's/_-_/_/g'`
-
-echo XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX:$2.
-if [ -n "$2" ] && [ -d "$REPOSITORY_SOFTWARE_FOLDER_CUSTOM" ]; then
-    echo YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY:$2.
-fi
 
 if [ -f "$REPOSITORY_SOFTWARE_FILENAME_CLEAN" ]; then
     echo; echo; echo; echo "Software \"$REPOSITORY_SOFTWARE_FILENAME_CLEAN\" already exists."
@@ -137,9 +133,15 @@ else
             fi
 
             mv "$REPOSITORY_SOFTWARE_FOLDER" "$REPOSITORY_SOFTWARE_FOLDER_CUSTOM"
-            if [ -f "$REPOSITORY_SOFTWARE_FOLDER_CUSTOM/tarball" ]; then
-                mv "$REPOSITORY_SOFTWARE_FOLDER_CUSTOM/tarball" "$REPOSITORY_SOFTWARE_FOLDER_CUSTOM/$2.tar.gz"
-            fi
+            find "$REPOSITORY_SOFTWARE_FOLDER_CUSTOM" -maxdepth 1 -type f | while read -r FILE
+            do
+                if [ ! "$FILE" = "$INSTALL_SCRIPT_FILENAME" ]; then
+                    if [ ! "$FILE" = "$REPOSITORY_SOFTWARE_FOLDER_CUSTOM/$INSTALL_SCRIPT_FILENAME" ]; then
+                        echo Renaming the file "$FILE" to "$REPOSITORY_SOFTWARE_FOLDER_CUSTOM/$2"...
+                        sudo mv "$FILE" "$REPOSITORY_SOFTWARE_FOLDER_CUSTOM/$2"
+                    fi
+                fi
+            done
         fi
     fi
 fi
