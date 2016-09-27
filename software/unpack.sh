@@ -122,6 +122,8 @@ else
     sudo tar -xf "$REPOSITORY_SOFTWARE_ARCHIVE"
 fi
 
+sudo chmod 755 "$INSTALL_FOLDER"
+
 "$UTILITY_CLEAN_FILENAME" "$REPOSITORY_ARCHIVE"
 
 finalise
