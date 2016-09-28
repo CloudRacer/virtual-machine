@@ -6,3 +6,4 @@ maven,http://www.mirrorservice.org/sites/ftp.apache.org/maven/maven-3/3.3.9/bina
 nodejs,https://nodejs.org/dist/v4.4.7/node-v4.4.7-linux-x64.tar.xz,bin/node,env,PATH,$PATH:/opt/nodejs/default/bin
 git,file://localhost/software/repository/git/git.tar.bz2,git,env,PATH,$PATH:/opt/git/default
 google-chrome,https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb,google/chrome/google-chrome
++tomcat,http://mirror.vorboss.net/apache/tomcat/tomcat-9/v9.0.0.M10/bin/apache-tomcat-9.0.0.M10.tar.gz,bin/startup.sh

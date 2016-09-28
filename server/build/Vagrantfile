@@ -11,7 +11,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "hashicorp/precise64"
   #config.vm.provision "docker"
   #config.vm.network "forwarded_port", guest: 1521, host: 1521
-  #config.vm.network "forwarded_port", guest: 8080, host: 8080
+  config.vm.network "forwarded_port", guest: 8080, host: 8080
   #config.vm.network "forwarded_port", guest: 5432, host: 5432
 
   config.vm.network "private_network", :type => 'dhcp', :adapter => 2
@@ -22,7 +22,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.synced_folder "../../software", "/software"
  
   config.vm.provider "virtualbox" do |vb|
-    vb.name = "test"
+    vb.name = "build"
   
     # Display the VirtualBox GUI when booting the machine
     #vb.gui = true
