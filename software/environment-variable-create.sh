@@ -78,7 +78,7 @@ main() {
 	if [ $RESULT -ne 0 ]; then
 		return $RESULT
 	fi
-	
+
 	return 0
 }
 

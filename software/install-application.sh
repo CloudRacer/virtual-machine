@@ -100,21 +100,23 @@ UTILITY_FETCH_FOLDER=$SCRIPT_FOLDER/download.sh
 UTILITY_UNPACK_FOLDER=$SCRIPT_FOLDER/unpack.sh
 ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME=/etc/environment
 
-echo APPLICATION_NAME:$APPLICATION_NAME.
-echo SOFTWARE_LINK:$SOFTWARE_LINK.
-echo INSTALL_FOLDER:$INSTALL_FOLDER.
-echo SOFTWARE_DOWNLOAD_URL:$SOFTWARE_DOWNLOAD_URL.
-echo SOURCE_FILENAME:$SOURCE_FILENAME.
-echo SOFTWARE_HOME:$SOFTWARE_HOME.
-echo APPLICATION_EXECUTABLE:$APPLICATION_EXECUTABLE.
-echo UTILITY_FETCH_FOLDER:$UTILITY_FETCH_FOLDER.
-echo UTILITY_UNPACK_FOLDER:$UTILITY_UNPACK_FOLDER.
-echo ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME:$ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME.
+#echo APPLICATION_NAME:$APPLICATION_NAME.
+#echo SOFTWARE_LINK:$SOFTWARE_LINK.
+#echo INSTALL_FOLDER:$INSTALL_FOLDER.
+#echo SOFTWARE_DOWNLOAD_URL:$SOFTWARE_DOWNLOAD_URL.
+#echo SOURCE_FILENAME:$SOURCE_FILENAME.
+#echo SOFTWARE_HOME:$SOFTWARE_HOME.
+#echo APPLICATION_EXECUTABLE:$APPLICATION_EXECUTABLE.
+#echo UTILITY_FETCH_FOLDER:$UTILITY_FETCH_FOLDER.
+#echo UTILITY_UNPACK_FOLDER:$UTILITY_UNPACK_FOLDER.
+#echo ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME:$ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME.
 
 "$UTILITY_FETCH_FOLDER" "$SOFTWARE_DOWNLOAD_URL"
 
 if [ ! -d "$INSTALL_FOLDER" ]; then
 	SOURCE_FILENAME=`echo $SOURCE_FILENAME | sed -e 's/%20/ /g' | tr ' ' '_' | tr -d '[{}(),\!]' | tr -d "\'" | sed 's/_-_/_/g'`
+
+	echo "Installing \"$SOURCE_FILENAME\" into \"$INSTALL_FOLDER\"..."
 
 	sudo "$UTILITY_UNPACK_FOLDER" "$SOURCE_FILENAME" "$INSTALL_FOLDER"
 	find "$INSTALL_FOLDER" -maxdepth 1 -type d | while read -r FILE
@@ -125,19 +127,20 @@ if [ ! -d "$INSTALL_FOLDER" ]; then
 	    fi
 	done
 else
-	echo; echo; echo; echo The application folder \"$INSTALL_FOLDER\" already exists.
+	echo The application folder \"$INSTALL_FOLDER\" already exists.
 fi
 
 
 if [ ! "$APPLICATION_EXECUTABLE_NAME" = "" ]; then
-	if [ -f "$SOFTWARE_LINK" ]; then
+	# Identify the link file, even if it is broken.
+	if [ -L "$SOFTWARE_LINK" ]; then
 		echo Removing the pre-existing Symbolic Link \"$SOFTWARE_LINK\"...
 		sudo rm "$SOFTWARE_LINK"
 	fi
 	echo Creating the Symbolic Link \"$SOFTWARE_LINK\" to \"$APPLICATION_EXECUTABLE\"...
 	sudo ln -s "$APPLICATION_EXECUTABLE" "$SOFTWARE_LINK"
 else
-	echo; echo; echo; echo Application executable not specified\; a Symbolic Link will not be created.
+	echo Application executable not specified\; a Symbolic Link will not be created.
 fi
 
 finalise

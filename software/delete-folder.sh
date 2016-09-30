@@ -87,11 +87,8 @@ if [ $RESULT -ne 0 ]; then
 	return $RESULT
 fi
 
-FOLDER_NAME=$1
+#FOLDER_NAME=$1
 
-echo
-echo
-echo
 if [ "$FOLDER_NAME" = "/" ]; then
     echo "As a failsafe, this script (\"$SCRIPT_FILE\") does not operate on the \"$FOLDER_NAME\" folder. No more processing will be done by this script."
 else

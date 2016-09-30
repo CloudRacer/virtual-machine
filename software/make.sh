@@ -92,28 +92,22 @@ LIST=$SCRIPT_FOLDER/`echo $SCRIPT_FILE | cut -f 1 -d '.'`.list
 UTILITY_MAKE_APPLICATION=$SCRIPT_FOLDER/make-application.sh
 ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME=/etc/environment
 
-echo LIST:$LIST.
-echo UTILITY_MAKE_APPLICATION:$UTILITY_MAKE_APPLICATION.
-echo ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME:$ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME.
-
-echo
-echo
-echo
-
-cat "$LIST"
-
-echo
-echo
-echo
+#echo LIST:$LIST.
+#echo UTILITY_MAKE_APPLICATION:$UTILITY_MAKE_APPLICATION.
+#echo ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME:$ENVIRONMENT_VALIABLE_SYSTEM_WIDE_FILENAME.
 
 initialiseEnvironmentVariables
 
 IFS=","
 while read NAME URL
 do
-    echo SLEEP 10
-
-    sudo "$UTILITY_MAKE_APPLICATION" "$NAME" "$URL"
+       COMMENTED_NAME=`echo "$NAME" | cut -f 1 -d '#'`
+        if [ "$COMMENTED_NAME" = "$NAME" ]; then
+		echo; echo; echo; echo "Making \"$NAME\" from \"$URL\"..."
+		sudo "$UTILITY_MAKE_APPLICATION" "$NAME" "$URL"
+	else
+		echo; echo; echo; echo "Skipping \"$NAME\"."
+	fi
 done < "$LIST"
 
 finalise

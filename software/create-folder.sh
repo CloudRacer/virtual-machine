@@ -90,11 +90,8 @@ fi
 
 FOLDER_NAME=$1
 
-echo FOLDER_NAME:$FOLDER_NAME.
+#echo FOLDER_NAME:$FOLDER_NAME.
 
-echo
-echo
-echo
 if [ "$FOLDER_NAME" = "/" ]; then
     echo "As a failsafe, this script (\"$SCRIPT_FILE\") does not operate on the \"$FOLDER_NAME\" folder. No more processing will be done by this script."
 else

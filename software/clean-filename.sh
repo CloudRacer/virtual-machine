@@ -92,7 +92,7 @@ fi
 
 FOLDER_NAME=$1
 
-echo; echo; echo; echo FOLDER_NAME:$FOLDER_NAME.
+#echo; echo; echo; echo FOLDER_NAME:$FOLDER_NAME.
 
 find "$FOLDER_NAME" -type d | while read -r FILE
 do

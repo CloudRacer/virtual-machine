@@ -100,9 +100,9 @@ INSTALL_SCRIPT_NAME=$REPOSITORY_SOFTWARE_FOLDER/$INSTALL_SCRIPT_FILENAME
 REPOSITORY_SOFTWARE_FILENAME_CLEAN=`echo $REPOSITORY_SOFTWARE_FOLDER/$FILENAME | sed -e 's/%20/ /g' | tr ' ' '_' | tr -d '[{}(),\!]' | tr -d "\'" | sed 's/_-_/_/g'`
 
 if [ -f "$REPOSITORY_SOFTWARE_FILENAME_CLEAN" ]; then
-    echo; echo; echo; echo "Software \"$REPOSITORY_SOFTWARE_FILENAME_CLEAN\" already exists."
+    echo "Software \"$REPOSITORY_SOFTWARE_FILENAME_CLEAN\" already exists."
 elif [ -n "$2" ] && [ -d "$REPOSITORY_SOFTWARE_FOLDER_CUSTOM" ]; then
-    echo; echo; echo; echo "Software \"$REPOSITORY_SOFTWARE_FOLDER_CUSTOM\" already exists."
+    echo "Software \"$REPOSITORY_SOFTWARE_FOLDER_CUSTOM\" already exists."
 else
     "$UTILITY_CREATE_FOLDER" "$REPOSITORY_SOFTWARE_FOLDER"
 
@@ -124,10 +124,10 @@ else
         echo "rm -f \"\$SCRIPT_FOLDER/\$SOFTWARE_NAME\".*" >> "$INSTALL_SCRIPT_NAME"
         #echo "wget --no-check-certificate --no-cookies --header \"Cookie: oraclelicense=accept-securebackup-cookie\" $URL" >> "$INSTALL_SCRIPT_NAME"
         echo "curl --location-trusted --cookie \"oraclelicense=a\" $URL -o \"\$SCRIPT_FOLDER/\$SOFTWARE_NAME\"" >> "$INSTALL_SCRIPT_NAME"
- 
-        echo; echo; echo; echo "Downloading \"$REPOSITORY_SOFTWARE_FOLDER/$FILENAME\"..."
+
+        echo "Downloading \"$REPOSITORY_SOFTWARE_FOLDER/$FILENAME\"..."
         sh "$INSTALL_SCRIPT_NAME"
-    
+
         if [ ! -z "$2" ]; then
             if [ -d "$REPOSITORY_SOFTWARE_FOLDER_CUSTOM" ]; then
                 rm -R "$REPOSITORY_SOFTWARE_FOLDER_CUSTOM"
