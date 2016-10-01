@@ -102,24 +102,9 @@ sudo dpkg --configure -a
 sh $VAGRANT_FOLDER/auto-login.sh
 initialiseEnvironmentVariables
 
-#sh $SOFTWARE_FOLDER/install-jdk.sh
-#initialiseEnvironmentVariables
-#sh $SOFTWARE_FOLDER/install-maven.sh
-#initialiseEnvironmentVariables
-#sh $SOFTWARE_FOLDER/install-node.sh
-#initialiseEnvironmentVariables
-#sh $SOFTWARE_FOLDER/install-git.sh
-#initialiseEnvironmentVariables
-#sh $SOFTWARE_FOLDER/install-eclipse.sh
-#initialiseEnvironmentVariables
-#sh $SOFTWARE_FOLDER/install-google-chrome.sh
-#initialiseEnvironmentVariables
-#sh $SOFTWARE_FOLDER/install-vagrant.sh
-#initialiseEnvironmentVariables
-#sh $SOFTWARE_FOLDER/install-sublime.sh
-#initialiseEnvironmentVariables
-
-# Install bower.
-#npm install -g bower
+# if the Eclipse IDE has been installed, install the Eclipse IDE.
+if [ -L "/usr/bin/eclipse" ]; then
+	eclipse -clean -purgeHistory -application org.eclipse.equinox.p2.director -noSplash -repository http://download.eclipse.org/technology/m2e/releases -list
+fi
 
 finalise
