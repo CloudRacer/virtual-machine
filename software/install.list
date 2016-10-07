@@ -1,4 +1,4 @@
-sublime,https://download.sublimetext.com/sublime_text_3_build_3126_x64.tar.bz2,sublime_text
+#sublime,https://download.sublimetext.com/sublime_text_3_build_3126_x64.tar.bz2,sublime_text
 #eclipse,http://ftp-stud.fht-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/neon/1/eclipse-jee-neon-1-linux-gtk-x86_64.tar.gz,eclipse
 #vagrant,https://releases.hashicorp.com/vagrant/1.8.5/vagrant_1.8.5_x86_64.deb,opt/vagrant/bin/vagrant
 java,http://download.oracle.com/otn-pub/java/jdk/8u92-b14/jdk-8u92-linux-x64.tar.gz,bin/java,env,JAVA_HOME,/opt/java/default,env,PATH,$PATH:/opt/java/default/bin
