@@ -8,3 +8,4 @@ maven,http://www.mirrorservice.org/sites/ftp.apache.org/maven/maven-3/3.3.9/bina
 #google-chrome,https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb,google/chrome/google-chrome
 intellij,https://download-cf.jetbrains.com/idea/ideaIU-2016.2.4.tar.gz,intellij
 tomcat,http://mirror.vorboss.net/apache/tomcat/tomcat-9/v9.0.0.M10/bin/apache-tomcat-9.0.0.M10.tar.gz,bin/startup.sh
+dbeaver,http://dbeaver.jkiss.org/files/dbeaver-ce-latest-linux.gtk.x86_64.tar.gz,dbeaver
