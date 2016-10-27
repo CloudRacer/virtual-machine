@@ -17,3 +17,6 @@ echo
 sudo systemctl enable docker
 # Start Docker now.
 sudo systemctl start docker
+
+# Run this to add users who need to run server interactions like "docker ps"
+#sudo usermod -aG docker <username>

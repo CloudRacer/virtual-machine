@@ -1,6 +1,6 @@
 #sublime,https://download.sublimetext.com/sublime_text_3_build_3126_x64.tar.bz2,sublime_text
 #eclipse,http://ftp-stud.fht-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/neon/1/eclipse-jee-neon-1-linux-gtk-x86_64.tar.gz,eclipse
-#vagrant,https://releases.hashicorp.com/vagrant/1.8.5/vagrant_1.8.5_x86_64.deb,opt/vagrant/bin/vagrant
+vagrant,https://releases.hashicorp.com/vagrant/1.8.6/vagrant_1.8.6_x86_64.deb,vagrant/bin/vagrant
 java,http://download.oracle.com/otn-pub/java/jdk/8u92-b14/jdk-8u92-linux-x64.tar.gz,bin/java,env,JAVA_HOME,/opt/java/default,env,PATH,$PATH:/opt/java/default/bin
 maven,http://www.mirrorservice.org/sites/ftp.apache.org/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz,bin/mvn,env,PATH,$PATH:/opt/maven/default/bin
 #nodejs,https://nodejs.org/dist/v4.4.7/node-v4.4.7-linux-x64.tar.xz,bin/node,env,PATH,$PATH:/opt/nodejs/default/bin
