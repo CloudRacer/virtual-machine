@@ -1,7 +1,13 @@
 #!/bin/sh
 
 setScriptFilename() {
-	SCRIPT_FILE=`basename $0`
+	FILE_NAME=$0
+
+	# Check if the file is a symbolic link.
+	if [ -L "$FILE_NAME" ]; then
+		FILE_NAME=$(readlink "$FILE_NAME");
+	fi
+	SCRIPT_FILE=`basename $FILE_NAME`
 	RESULT=$?
 	if [ $RESULT -ne 0 ]; then
 		echo "ERR: $RESULT: Error encountered while determining the name of the current script."
@@ -12,7 +18,13 @@ setScriptFilename() {
 }
 
 setScriptFolderName() {
-	SCRIPT_FOLDER=`dirname $0`;
+	FILE_NAME=$0
+
+	# Check if the file is a symbolic link.
+	if [ -L "$FILE_NAME" ]; then
+		FILE_NAME=$(readlink "$FILE_NAME");
+	fi
+	SCRIPT_FOLDER=`dirname $FILE_NAME`;
 	RESULT=$?
 	if [ $RESULT -ne 0 ]; then
 		echo "ERR: $RESULT: Error encountered while determining the name of the folder containing the current script."
@@ -94,6 +106,8 @@ ARCHIVE_FILENAME=$BACKUP_FOLDER/`basename $FOLDER_NAME`-`date "+%Y-%m-%d_%H-%M-%
 UTILITY_CREATE_FOLDER=$SCRIPT_FOLDER/create-folder.sh
 ARCHIVE_UTILITY="tar -cvpzf"
 
+echo SCRIPT_FILE:$SCRIPT_FILE.
+echo SCRIPT_FOLDER:$SCRIPT_FOLDER.
 echo FOLDER_NAME:$FOLDER_NAME.
 echo BACKUP_FOLDER:$BACKUP_FOLDER.
 echo ARCHIVE_FILENAME:$ARCHIVE_FILENAME.
