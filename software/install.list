@@ -10,3 +10,4 @@ intellij,https://download-cf.jetbrains.com/idea/ideaIU-2016.2.4.tar.gz,intellij
 tomcat,http://mirror.vorboss.net/apache/tomcat/tomcat-9/v9.0.0.M10/bin/apache-tomcat-9.0.0.M10.tar.gz,bin/startup.sh
 #dbeaver,http://dbeaver.jkiss.org/files/dbeaver-ce-latest-linux.gtk.x86_64.tar.gz,dbeaver
 squirrel-sql.sh,http://netassist.dl.sourceforge.net/project/squirrel-sql/1-stable/3.7.1-plainzip/squirrelsql-3.7.1-standard.zip,squirrel-sql.sh
+ngrok,https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip,ngrok
