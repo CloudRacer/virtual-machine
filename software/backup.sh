@@ -30,7 +30,7 @@ setScriptFolderName() {
 		echo "ERR: $RESULT: Error encountered while determining the name of the folder containing the current script."
 		return $RESULT;
 	fi
-	
+
 	if [ "$SCRIPT_FOLDER" = "" ] || [ "$SCRIPT_FOLDER" = "." ] || [ -z "$SCRIPT_FOLDER" ]; then
 		SCRIPT_FOLDER=`pwd`
 	fi
@@ -58,19 +58,19 @@ initialiseEnvironment() {
     if [ $RESULT -ne 0 ]; then
         return $RESULT
     fi
-	
+
 	setScriptFilename
 	RESULT=$?
 	if [ $RESULT -ne 0 ]; then
 		return $RESULT
 	fi
-	
+
 	setScriptFolderName
 	RESULT=$?
 	if [ $RESULT -ne 0 ]; then
 		return $RESULT
 	fi
-	
+
 	return 0
 }
 
@@ -90,7 +90,7 @@ main() {
 	if [ $RESULT -ne 0 ]; then
 		return $RESULT
 	fi
-	
+
 	return 0
 }
 
@@ -103,7 +103,7 @@ fi
 FOLDER_NAME=$1
 FILE_FILTER=$2
 if [ "$FILE_FILTER" = "" ]; then
-	FILE_FILTER="*"
+	FILE_FILTER=".*"
 fi
 BACKUP_FOLDER=~/.backup
 ARCHIVE_FILENAME=$BACKUP_FOLDER/`basename $FOLDER_NAME`-`date "+%Y-%m-%d_%H-%M-%S"`.tar.gz
@@ -125,6 +125,6 @@ echo
 "$UTILITY_CREATE_FOLDER" "$BACKUP_FOLDER"
 
 #$ARCHIVE_UTILITY "$ARCHIVE_FILENAME" "$FOLDER_NAME"
-find "$FOLDER_NAME" -type f -name "$FILE_FILTER" | $ARCHIVE_UTILITY "$ARCHIVE_FILENAME" -T -
+find "$FOLDER_NAME" -type f -regex "$FILE_FILTER" | $ARCHIVE_UTILITY "$ARCHIVE_FILENAME" -T -
 
 finalise
