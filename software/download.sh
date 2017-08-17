@@ -122,8 +122,8 @@ else
         echo "cd \"\$SCRIPT_FOLDER\"" >> "$INSTALL_SCRIPT_NAME"
         echo "rm -f \"\$SCRIPT_FOLDER/\$SOFTWARE_NAME\"" >> "$INSTALL_SCRIPT_NAME"
         echo "rm -f \"\$SCRIPT_FOLDER/\$SOFTWARE_NAME\".*" >> "$INSTALL_SCRIPT_NAME"
-        #echo "wget --no-check-certificate --no-cookies --header \"Cookie: oraclelicense=accept-securebackup-cookie\" $URL" >> "$INSTALL_SCRIPT_NAME"
-        echo "curl --location-trusted --cookie \"oraclelicense=a\" $URL -o \"\$SCRIPT_FOLDER/\$SOFTWARE_NAME\"" >> "$INSTALL_SCRIPT_NAME"
+        echo "wget --no-check-certificate --no-cookies --header \"Cookie: oraclelicense=accept-securebackup-cookie\" $URL" >> "$INSTALL_SCRIPT_NAME"
+        #echo "curl --location-trusted --cookie \"oraclelicense=a\" $URL -o \"\$SCRIPT_FOLDER/\$SOFTWARE_NAME\"" >> "$INSTALL_SCRIPT_NAME"
 
         echo "Downloading \"$REPOSITORY_SOFTWARE_FOLDER/$FILENAME\"..."
         sh "$INSTALL_SCRIPT_NAME"
